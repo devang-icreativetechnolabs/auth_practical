@@ -1,0 +1,72 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+<div class="mb-3">
+	{{ form_label(form.firstName, 'First Name', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.firstName) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.lastName, 'Last Name', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.lastName) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.age, 'Age', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.age, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.age) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.hobby, 'Hobby', {'label_attr': {'class': 'form-label'}}) }}
+
+	{% for choice in form.hobby %}
+		<div class="form-check">
+			{{ form_widget(choice, {'attr': {'class': 'form-check-input'}}) }}
+			{{ form_label(choice, null, {'label_attr': {'class': 'form-check-label'}}) }}
+		</div>
+	{% endfor %}
+
+	{{ form_errors(form.hobby) }}
+</div>
+
+<div class="mb-6">
+	{{ form_label(form.gender, 'Gender', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.gender, {'attr': {'class': 'form-select'}}) }}
+	{{ form_errors(form.gender) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.aboutMe, 'About Me', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.aboutMe, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.aboutMe) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.salary, 'Salary', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.salary, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.salary) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.roles, 'Roles', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.roles, {'attr': {'class': 'form-select'}}) }}
+	{{ form_errors(form.roles) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.city, 'City', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.city) }}
+</div>
+
+<div class="mb-3">
+	{{ form_label(form.profile_image, 'Profile Image', {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.profile_image, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.profile_image) }}
+</div>
+
+<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

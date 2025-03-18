@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee
+{% endblock %}
+
+{% block body %}
+	<h1>Employee</h1>
+
+	<table class="table table-hover">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ employee.id }}</td>
+			</tr>
+			<tr>
+				<th>Profile image</th>
+				<td><img width="100" src={{employee.getProfileImage() ?? ""}}/></td>
+			</tr>
+			<tr>
+				<th>First name</th>
+				<td>{{ employee.firstName }}</td>
+			</tr>
+			<tr>
+				<th>Last name</th>
+				<td>{{ employee.lastName }}</td>
+			</tr>
+			<tr>
+				<th>Age</th>
+				<td>{{ employee.age }}</td>
+			</tr>
+			<tr>
+				<th>Hobby</th>
+				<td>{{ employee.hobby ? employee.getHobbyNames() : '' }}</td>
+			</tr>
+			<tr>
+				<th>Gender</th>
+				<td>{{ employee.gender.name }}</td>
+			</tr>
+			<tr>
+				<th>About me</th>
+				<td>{{ employee.aboutMe }}</td>
+			</tr>
+			<tr>
+				<th>Salary</th>
+				<td>{{ employee.salary }}</td>
+			</tr>
+			<tr>
+				<th>Roles</th>
+				<td>{{ employee.roles.name }}</td>
+			</tr>
+			<tr>
+				<th>City</th>
+				<td>{{ employee.city }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="col-md-12 d-flex justify-content-center gap-2 m-4">
+		<a class="btn btn-info" href="{{ path('app_employee_index') }}">back to list</a>
+
+		<a class="btn btn-success" href="{{ path('app_employee_edit', {'id': employee.id}) }}">edit</a>
+		{{ include('employee/_delete_form.html.twig') }}
+	</div>
+
+{% endblock %}

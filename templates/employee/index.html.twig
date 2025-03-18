@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee List{% endblock %}
+
+{% block body %}
+<h1>Employee List</h1>
+
+<div class="row p-2 d-flex justify-content-end mb-2">
+    <div class="col-md-6 d-flex justify-content-end gap-2">
+        <input class="form-control" type="number" id="salaryFilter" placeholder="Search Salary"/>
+        <button class="btn btn-info" id="filterButton">Apply</button>
+    </div>
+	<div class="col-md-6">
+		<a class="btn btn-success" href="{{ path('app_employee_new') }}">Create new</a>
+	</div>
+
+</div>
+
+<table id="employeeTable" class="table p-2">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Profile Image</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>Hobby</th>
+            <th>Gender</th>
+            <th>About Me</th>
+            <th>Salary</th>
+            <th>Roles</th>
+            <th>City</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
+
+<script>
+    $(document).ready(function() {
+        let table = $('#employeeTable').DataTable({
+            ajax: {
+                url: "{{ path('app_employee_data') }}",
+                data: function(d) {
+                    d.salary = $('#salaryFilter').val();
+                }
+            },
+			searching: false,
+			serverSide: true,
+			processing: true,
+            columns: [
+                { data: 0 },
+                { data: 1 },
+                { data: 2 },
+                { data: 3 },
+                { data: 4 },
+                { data: 5 },
+                { data: 6 },
+                { data: 7 },
+                { data: 8 },
+                { data: 9 },
+                { data: 10 },
+                { data: 11 }
+            ]
+        });
+
+        $('#filterButton').on('click', function() {
+            table.ajax.reload();
+        });
+    });
+</script>
+{% endblock %}
