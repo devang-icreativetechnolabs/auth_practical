@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in
+{% endblock %}
+{% block style %}
+	<style>
+		.login-container {
+			min-height: 100vh;
+			padding: 2rem;
+			margin-top: 5rem;
+			height: 100%;
+			margin-bottom: 0;
+		}
+		.login-box {
+			width: 100%;
+			max-width: 400px;
+			padding: 2rem;
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<div class="container d-flex justify-content-center align-items-center login-container">
+		<form method="post">
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
+
+			<div class="box">
+				<h1 class="text-center">Login</h1>
+				<label for="username">Email</label>
+				<input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+				<label for="password">Password</label>
+				<input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+				<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+				<div class="d-flex justify-content-between m-3">
+					<button class="btn btn-lg btn-primary" type="submit">
+						sign in
+					</button>
+					<a class="" href="{{ path('app_register') }}">Sign Up?</a>
+				</div>
+			</div>
+		</form>
+	</div>
+{% endblock %}

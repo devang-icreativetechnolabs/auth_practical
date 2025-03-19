@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register
+{% endblock %}
+{% block style %}
+	<style>
+		.container {
+			min-height: 100vh;
+		}
+		.box {
+			width: 100%;
+			max-width: 400px;
+			padding: 2rem;
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
+	<div class="container d-flex justify-content-center align-items-center">
+		<div class="box text-center">
+			<h1>Register</h1>
+			{{ form_errors(registrationForm) }}
+			<div class="p-4">
+				{{ form_start(registrationForm) }}
+				<div class="mb-3">
+					{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control','placeholder' :"Email"}}) }}
+				</div>
+				<div class="mb-3">
+					{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control','placeholder' :"Password"}}) }}
+				</div>
+				<div class="mb-3">
+					<div class="d-flex justify-content-between m-3">
+						<button type="submit" class="btn btn-primary">Register</button>
+						<a class="" href="{{ path('app_login') }}">Sign in?</a>
+					</div>
+				</div>
+				{# <button type="submit" class="btn btn-primary w-100">Register</button> #}
+				{{ form_end(registrationForm) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

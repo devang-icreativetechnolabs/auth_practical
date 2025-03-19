@@ -58,7 +58,10 @@
 		<a class="btn btn-info" href="{{ path('app_employee_index') }}">back to list</a>
 
 		<a class="btn btn-success" href="{{ path('app_employee_edit', {'id': employee.id}) }}">edit</a>
-		{{ include('employee/_delete_form.html.twig') }}
+		<form method="post" action="{{ path('app_employee_delete', {'id': employee.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
+			<button class="btn btn-danger">Delete</button>
+		</form>
 	</div>
 
 {% endblock %}
