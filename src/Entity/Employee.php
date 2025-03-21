@@ -17,79 +17,79 @@ class Employee
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int|null $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $first_name = null;
+    private string|null $first_name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $last_name = null;
+    private string|null $last_name = null;
 
     #[ORM\Column]
-    private ?int $age = null;
+    private int|null $age;
 
     #[ORM\Column(nullable: true)]
-    private ?array $hobby = null;
+    private array|null $hobby = null;
 
     #[ORM\Column(enumType: Gender::class)]
-    private ?Gender $gender = null;
+    private Gender|null $gender = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $about_me = null;
+    private string|null $about_me = null;
 
     #[ORM\Column]
-    private ?float $salary = null;
+    private float|null $salary = null;
 
     #[ORM\Column(enumType: EmployeeRole::class)]
-    private ?EmployeeRole $roles = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    private EmployeeRole|null $roles = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $profile_image = null;
+    private string|null $city = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private string|null $profile_image = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $created_at = null;
+    private \DateTimeInterface|null $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $updated_at = null;
+    private \DateTimeInterface|null $updated_at = null;
 
-    public function getId(): ?int
+    public function getId(): int|null
     {
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): string|null
     {
         return $this->first_name;
     }
 
-    public function setFirstName(string $first_name): static
+    public function setFirstName(string|null $first_name): static
     {
         $this->first_name = $first_name;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): string|null
     {
         return $this->last_name;
     }
 
-    public function setLastName(string $last_name): static
+    public function setLastName(string|null $last_name): static
     {
         $this->last_name = $last_name;
 
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): int|null
     {
         return $this->age;
     }
 
-    public function setAge(int $age): static
+    public function setAge(int|null $age): static
     {
         $this->age = $age;
 
@@ -101,7 +101,7 @@ class Employee
         return array_map(fn($hobby) => Hobby::tryFrom($hobby), $this->hobby ?? []);
     }
 
-    public function getHobbyNames(): ?string
+    public function getHobbyNames(): string|null
     {
         if (!$this->hobby) {
             return null;
@@ -122,96 +122,96 @@ class Employee
         return $this;
     }
 
-    public function getGender(): ?Gender
+    public function getGender(): Gender|null
     {
         return $this->gender;
     }
 
-    public function setGender(Gender $gender): static
+    public function setGender(Gender|null $gender): static
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    public function getAboutMe(): ?string
+    public function getAboutMe(): string|null
     {
         return $this->about_me;
     }
 
-    public function setAboutMe(?string $about_me): static
+    public function setAboutMe(string|null $about_me): static
     {
         $this->about_me = $about_me;
 
         return $this;
     }
 
-    public function getSalary(): ?float
+    public function getSalary(): float|null
     {
         return $this->salary;
     }
 
-    public function setSalary(float $salary): static
+    public function setSalary(float|null $salary): static
     {
         $this->salary = $salary;
 
         return $this;
     }
 
-    public function getRoles(): ?EmployeeRole
+    public function getRoles(): EmployeeRole|null
     {
         return $this->roles;
     }
 
-    public function setRoles(EmployeeRole $roles): static
+    public function setRoles(EmployeeRole|null $roles): static
     {
         $this->roles = $roles;
 
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string|null
     {
         return $this->city;
     }
 
-    public function setCity(string $city): static
+    public function setCity(string|null $city): static
     {
         $this->city = $city;
 
         return $this;
     }
 
-    public function getProfileImage(): ?string
+    public function getProfileImage(): string|null
     {
-        return $this->profile_image ? "/uploads/profile_images/" . $this->profile_image : null;
+        return "/uploads/profile_images/" . ($this->profile_image ?? "avatar.png");
     }
 
-    public function setProfileImage(?string $profile_image): static
+    public function setProfileImage(string|null $profile_image): static
     {
         $this->profile_image = $profile_image;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface|null
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): static
+    public function setCreatedAt(\DateTimeInterface|null $created_at): static
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): \DateTimeInterface|null
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): static
+    public function setUpdatedAt(\DateTimeInterface|null $updated_at): static
     {
         $this->updated_at = $updated_at;
 

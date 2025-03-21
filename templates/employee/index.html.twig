@@ -5,15 +5,32 @@
 {% block body %}
 <h1>Employee List</h1>
 
-<div class="row p-2 d-flex justify-content-end mb-2">
-    <div class="col-md-6 d-flex justify-content-end gap-2">
-        <input class="form-control" type="number" id="salaryFilter" placeholder="Search Salary"/>
-        <button class="btn btn-info" id="filterButton">Apply</button>
+<div class="container-fluid mb-3">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="d-flex gap-2">
+                <div class="col-md-4">
+                    <input class="form-control" type="number" id="salaryFilter" min="0" placeholder="Search Salary"/>
+                </div>
+                <div class="col-md-1">
+                    <select class="form-control text-center" id="salaryOperator">
+                        <option value="=">{{"="}}</option>
+                        <option value="<">{{"<"}}</option>
+                        <option value=">">{{">"}}</option>
+                        <option value="<=">{{"<="}}</option>
+                        <option value=">=">{{">="}}</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn btn-info" id="filterButton">Apply</button>
+                    <button class="btn btn-danger" id="clearFilterButton">Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-end">
+            <a class="btn btn-success" href="{{ path('app_employee_new') }}">Create new</a>
+        </div>
     </div>
-	<div class="col-md-6">
-		<a class="btn btn-success" href="{{ path('app_employee_new') }}">Create new</a>
-	</div>
-
 </div>
 
 <table id="employeeTable" class="table p-2">
@@ -42,11 +59,13 @@
                 url: "{{ path('app_employee_data') }}",
                 data: function(d) {
                     d.salary = $('#salaryFilter').val();
+                    d.operator = $('#salaryOperator').val();
                 }
             },
 			searching: false,
 			serverSide: true,
 			processing: true,
+            order:[[0, 'desc']],
             columns: [
                 { data: 0 },
                 { data: 1 },
@@ -64,6 +83,11 @@
         });
 
         $('#filterButton').on('click', function() {
+            table.ajax.reload();
+        });
+        $('#clearFilterButton').on('click', function() {
+            $('#salaryFilter').val('');
+            $('#salaryOperator').val('=');
             table.ajax.reload();
         });
     });

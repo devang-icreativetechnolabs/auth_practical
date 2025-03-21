@@ -25,7 +25,8 @@ security:
       logout:
         path: app_logout
         target: app_login
-
+      login_throttling:
+        max_attempts: 5
         # where to redirect after logout
         # target: app_any_route
 

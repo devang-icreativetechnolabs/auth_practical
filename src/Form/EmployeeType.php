@@ -9,64 +9,124 @@ use App\Enum\Hobby;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints;
 
 class EmployeeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, ['label' => 'First Name'])
-            ->add('lastName', TextType::class, ['label' => 'Last Name'])
-            ->add('age')
-            ->add('hobby', ChoiceType::class, [
-                'choices'  => [
-                    'Reading' => Hobby::READING,
-                    'Sports' => Hobby::SPORTS,
-                    'Music' => Hobby::MUSIC,
-                    'Gaming' => Hobby::GAMING,
-                ],
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('gender', ChoiceType::class, [
-                'choices' => [
-                    'Male' => Gender::MALE,
-                    'Female' => Gender::FEMALE,
-                    'Other' => Gender::OTHERS,
+            ->add(
+                'profile_image',
+                FileType::class,
+                [
+                    'label' => 'Profile Image',
+                    'required' => false,
+                    'attr' => [
+                        'accept' => 'image/*'
+                    ],
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/jpg',
+                                'image/png'
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid image file (JPG, JPEG or PNG)',
+                        ])
+                    ],
+                    'mapped' => false
                 ]
-            ])
+            )
+            ->add(
+                'first_name',
+                TextType::class,
+                [
+                    'label' => 'First Name',
+                    'constraints' => [
+                        new Constraints\NotBlank(['message' => 'Please enter a first name']),
+                    ]
+                ]
+            )
+            ->add(
+                'last_name',
+                TextType::class,
+                [
+                    'label' => 'Last Name',
+                    'constraints' => [
+                        new Constraints\NotBlank(['message' => 'Please enter a last name']),
+                    ]
+                ]
+            )
+            ->add(
+                'age',
+                null,
+                [
+                    'constraints' => [
+                        new Constraints\NotBlank(['message' => 'Please enter an age']),
+                    ]
+                ]
+            )->add(
+                'hobby',
+                ChoiceType::class,
+                [
+                    'choices'  => [
+                        'Reading' => Hobby::READING,
+                        'Sports' => Hobby::SPORTS,
+                        'Music' => Hobby::MUSIC,
+                        'Gaming' => Hobby::GAMING,
+                    ],
+                    'multiple' => true,
+                    'expanded' => true,
+                ]
+            )
+            ->add(
+                'gender',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        "Select an option" => null,
+                        'Male' => Gender::MALE,
+                        'Female' => Gender::FEMALE,
+                        'Other' => Gender::OTHERS,
+                    ],
+                    'constraints' => [
+                        new Constraints\NotBlank(['message' => 'Please select a gender']),
+                    ]
+                ]
+            )
             ->add('aboutMe')
-            ->add('salary')
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Employee' => EmployeeRole::EMPLOYEE,
-                    'Manager' => EmployeeRole::MANAGER,
-                    'HR' => EmployeeRole::HR,
-                ],
-                'multiple' => false,
-            ])
-            ->add('city')
-            ->add('profile_image', FileType::class, [
-                'label' => 'Profile Image',
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/jpg',
-                            'image/png'
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image file (JPG, JPEG or PNG)',
-                    ])
-                ],
-                'mapped' => false
-            ]);
+            ->add(
+                'salary',
+                null,
+                [
+                    'constraints' => [
+                        new Constraints\NotBlank(['message' => 'Please enter an salary']),
+                    ]
+                ]
+            )
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        "Select an option" => null,
+                        'Employee' => EmployeeRole::EMPLOYEE,
+                        'Manager' => EmployeeRole::MANAGER,
+                        'HR' => EmployeeRole::HR,
+                    ],
+                    'multiple' => false,
+                    'constraints' => [
+                        new Constraints\NotBlank(['message' => 'Please select a role']),
+                    ]
+                ]
+            )
+            ->add('city');
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -5,12 +5,26 @@
 
 {% block body %}
 	<h1>Create new Employee</h1>
-
 	<div class="p-4">
-		{{ include('employee/form.html.twig') }}
-	</div>
-	<div class="col-md-12 d-flex justify-content-center gap-2 mb-1">
-		<a class="btn btn-info" href="{{ path('app_employee_index') }}">back to list</a>
+		{{ include('employee/form.html.twig', {'button_label': 'Create'}) }}
 	</div>
 
 {% endblock %}
+{% block javascripts %}
+	{{ parent()}}
+	<script>
+		function readURL(input) {
+if (input.files && input.files[0]) {
+
+var reader = new FileReader();
+reader.onload = function (e) {
+document.querySelector("#img").setAttribute("src", e.target.result);
+document.querySelector("#img").style.display = "block";
+};
+
+reader.readAsDataURL(input.files[0]);
+}
+}
+	</script>
+{% endblock %}
+

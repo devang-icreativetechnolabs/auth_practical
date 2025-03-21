@@ -11,7 +11,6 @@ class RouteEventListener
     {
         $request = $event->getRequest();
 
-        dd($request);
         // Get the current route
         $route = $request->attributes->get('_route');
 

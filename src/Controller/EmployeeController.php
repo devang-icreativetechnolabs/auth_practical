@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/employee')]
 final class EmployeeController extends AbstractController
@@ -21,8 +23,9 @@ final class EmployeeController extends AbstractController
         $query = $employeeRepository->createQueryBuilder('e');
 
         $salary = $request->query->get('salary');
+        $operator = $request->query->get('operator');
         if (!empty($salary)) {
-            $query->andWhere('e.salary = :salary')->setParameter('salary', $salary);
+            $query->andWhere('e.salary ' . $operator . ' :salary')->setParameter('salary', $salary);
         }
 
         $columns = [
@@ -58,7 +61,7 @@ final class EmployeeController extends AbstractController
         foreach ($employees as $employee) {
             $data[] = [
                 $employee->getId(),
-                '<img width="100" src="' . $employee->getProfileImage() . '"/>',
+                '<img width="100" height="100"  src="' . $employee->getProfileImage() . '"/>',
                 $employee->getFirstName(),
                 $employee->getLastName(),
                 $employee->getAge(),
@@ -71,6 +74,10 @@ final class EmployeeController extends AbstractController
                 '<div class="col-md-12 d-flex justify-content-center gap-2">
                     <a class="btn btn-info" href="' . $this->generateUrl('app_employee_show', ['id' => $employee->getId()]) . '">Show</a> 
                     <a class="btn btn-info" href="' . $this->generateUrl('app_employee_edit', ['id' => $employee->getId()]) . '">Edit</a>
+                    <form method="post" action="' . $this->generateUrl('app_employee_delete', ['id' => $employee->getId()]) . '" onsubmit="return confirm(\'Are you sure you want to delete this item?\');">
+                        <input type="hidden" name="_token" value="' . $this->container->get('security.csrf.token_manager')->getToken('delete' . $employee->getId())->getValue() . '">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
                 </div>'
             ];
         }
@@ -85,8 +92,10 @@ final class EmployeeController extends AbstractController
 
 
     #[Route(name: 'app_employee_index', methods: ['GET'])]
-    public function index(EmployeeRepository $employeeRepository): Response
+    public function index(EmployeeRepository $employeeRepository, TranslatorInterface $translator): Response
     {
+        $translated = $translator->trans('this_is_msg',['%var%' => "Yes"]);
+        dd($translated);
         return $this->render('employee/index.html.twig');
     }
 
@@ -106,7 +115,10 @@ final class EmployeeController extends AbstractController
             }
             $entityManager->persist($employee);
             $entityManager->flush();
-
+            $this->addFlash(
+                'success',
+                'Created successfully!'
+            );
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -138,6 +150,10 @@ final class EmployeeController extends AbstractController
             }
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Updated successfully!'
+            );
             return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -153,6 +169,10 @@ final class EmployeeController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($employee);
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Deleted successfully!'
+            );
         }
 
         return $this->redirectToRoute('app_employee_index', [], Response::HTTP_SEE_OTHER);

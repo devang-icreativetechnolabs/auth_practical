@@ -49,7 +49,10 @@ class RegistrationController extends AbstractController
             );
 
             // do anything else you need here, like send an email
-
+            $this->addFlash(
+                'success',
+                'Acount created successfully!'
+            );
             return $this->redirectToRoute('app_employee_index');
         }
 

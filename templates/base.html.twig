@@ -8,8 +8,7 @@
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-toast-plugin@1.3.2/dist/jquery.toast.min.css">
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> {% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
@@ -20,14 +19,43 @@
 
 			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 			<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+			<script src="https://cdn.jsdelivr.net/npm/jquery-toast-plugin@1.3.2/dist/jquery.toast.min.js" integrity="sha256-56zsTlMwzGRtLC4t51alLh5cKYvi0hnbhEXQTVU/zZQ=" crossorigin="anonymous"></script>
 		{% endblock %}
 	</head>
 	<body>
 		{% if app.user %}
-			<div class="d-flex justify-content-end m-3">
+			<div class="d-flex justify-content-end m-3 gap-2">
+				<a class="btn btn-info" href="{{ path('app_employee_index') }}">Back</a>
 				<a class="btn btn-danger" href="{{ path('app_logout') }}">Logout</a>
 			</div>
 		{% endif %}
 		{% block body %}{% endblock %}
 	</body>
+	<script type="text/javascript">
+	{% for message in app.flashes('success') %}
+		$.toast({
+			heading: 'Success!',
+			text: "{{ message }}",
+			icon: 'success',
+			loader: true,
+			loaderBg: '#9EC600' ,
+			showHideTransition: 'fade',
+			position: 'top-right',
+
+		})
+	{% endfor %}
+	{% for message in app.flashes('error') %}
+		$.toast({
+			heading: 'Error!',
+			text: "{{ message }}",
+			icon: 'error',
+			loader: true,
+			loaderBg: '#ff0000' ,
+			showHideTransition: 'fade',
+			position: 'top-right',
+
+		})
+	{% endfor %}
+	</script>
 </html>
