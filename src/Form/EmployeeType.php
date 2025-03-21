@@ -69,6 +69,7 @@ class EmployeeType extends AbstractType
                 [
                     'constraints' => [
                         new Constraints\NotBlank(['message' => 'Please enter an age']),
+                        new Constraints\Positive(['message' => 'Please enter a valid age'])
                     ]
                 ]
             )->add(
@@ -107,6 +108,7 @@ class EmployeeType extends AbstractType
                 [
                     'constraints' => [
                         new Constraints\NotBlank(['message' => 'Please enter an salary']),
+                        new Constraints\Positive(['message' => 'Please enter a valid salary']),
                     ]
                 ]
             )

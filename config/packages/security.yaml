@@ -41,6 +41,7 @@ security:
   access_control:
     - { path: ^/login$, roles: PUBLIC_ACCESS } # Allow public access to the login page
     - { path: ^/register$, roles: PUBLIC_ACCESS } # Allow public access to the register page
+    - { path: ^/reset-password.*, roles: PUBLIC_ACCESS } # Allow public access to the register page
     - { path: ^/.*, roles: ROLE_USER } # Restrict all other pages to logged-in users
 
 when@test:
