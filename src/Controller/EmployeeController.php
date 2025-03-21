@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+// #[IsGranted('ROLE_ADMIN', statusCode: 423)]
 #[Route('/employee')]
 final class EmployeeController extends AbstractController
 {
@@ -95,7 +97,6 @@ final class EmployeeController extends AbstractController
     public function index(EmployeeRepository $employeeRepository, TranslatorInterface $translator): Response
     {
         $translated = $translator->trans('this_is_msg',['%var%' => "Yes"]);
-        dd($translated);
         return $this->render('employee/index.html.twig');
     }
 
